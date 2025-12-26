@@ -11,7 +11,7 @@ export const propertiesAndProject = async (req, res) => {
       projects,
     } = req.body;
 
-    // 1️⃣ Validate input
+    //Validate input
     if (
       (!properties || !Array.isArray(properties) || properties.length === 0) &&
       (!projects || !Array.isArray(projects) || projects.length === 0)
@@ -24,7 +24,7 @@ export const propertiesAndProject = async (req, res) => {
 
     let record = null;
 
-    // 2️⃣ If PROPERTY category exists → add properties
+    // If PROPERTY category exists → add properties
     if (propertyCategory && properties?.length) {
       record = await propertiesAndProjectModel.findOne({
         propertyCategory: propertyCategory.toLowerCase(),
@@ -35,7 +35,7 @@ export const propertiesAndProject = async (req, res) => {
       }
     }
 
-    // 3️⃣ If PROJECT category exists → add projects
+    // If PROJECT category exists → add projects
     if (!record && projectCategory && projects?.length) {
       record = await propertiesAndProjectModel.findOne({
         projectCategory: projectCategory.toLowerCase(),
@@ -46,7 +46,7 @@ export const propertiesAndProject = async (req, res) => {
       }
     }
 
-    // 4️⃣ If NO category exists → create new
+    // If NO category exists → create new
     if (!record) {
       record = new propertiesAndProjectModel({
         propertyCategory: propertyCategory?.toLowerCase(),
@@ -56,7 +56,7 @@ export const propertiesAndProject = async (req, res) => {
       });
     }
 
-    // 5️⃣ Save
+    // Save
     await record.save();
 
     res.status(201).json({

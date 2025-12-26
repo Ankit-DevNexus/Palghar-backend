@@ -50,6 +50,7 @@ const projectSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+
 const propertiesAndProjectSchema = new mongoose.Schema(
   {
     propertyCategory: { type: String, unique: true, lowercase: true },

@@ -8,6 +8,7 @@ import { createTestimonial, deleteTestimonial, getAllTestimonials, getTestimonia
 import upload from '../middleware/multerMiddleware.js';
 import { getAllPropertiesAndProjects, getPropertiesAndProjectsById, propertiesAndProject } from '../controllers/propertyAndProjectsController.js';
 import { Authenticate } from '../middleware/authMiddleware.js';
+import { AllBlogController, BlogController, BlogImageController, DeleteBlogController, EditBlogController, getBlogByIdController } from '../controllers/blogController.js';
 
 const router = express.Router();
 
@@ -55,10 +56,16 @@ router.delete('/testimonial/delete/:id', deleteTestimonial);
 router.post('/propertandprojects', Authenticate, propertiesAndProject);
 router.get('/propertandprojects/all', getAllPropertiesAndProjects);
 router.get('/propertandprojects/:id', getPropertiesAndProjectsById);
-// router.post('/propertandprojects/:id', addProperty);
-// router.get('/propertandprojects/:id', addProject);
-router.patch('/propertandprojects/update/:id', upload.single('image'), updateTestimonial);
+// router.patch('/propertandprojects/update/:id', upload.single('image'), updateTestimonial);
 // router.delete('/propertandprojects/delete/:id', deleteTestimonial);
 
+
+// ---------------- blogs ---------------------------
+router.post("/blog/post",Authenticate,upload.single("featureImage"),BlogController);
+router.get("/blog/all", AllBlogController);
+router.get("/blog/:id", getBlogByIdController);
+router.post("/upload-image", upload.single("image"), BlogImageController);
+router.patch("/blog/edit/:id",Authenticate,upload.single("featureImage"),EditBlogController);
+router.delete("/blog/delete/:id", Authenticate, DeleteBlogController);
 
 export default router;
