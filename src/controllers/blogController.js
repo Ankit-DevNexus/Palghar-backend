@@ -10,12 +10,6 @@ import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 import mongoose from "mongoose";
 
-// For debugging only (shows if env vars loaded)
-// console.log("Cloudinary config:", {
-//     cloud_name: process.env.CLOUD_NAME,
-//     api_key: process.env.CLOUD_API_KEY,
-// });
-
 export const BlogController = async (req, res) => {
 
     let uploadedImage = null;
@@ -41,7 +35,7 @@ export const BlogController = async (req, res) => {
     }
 
     // Upload image to Cloudinary
-     uploadedImage = await uploadOnCloudinary(req.file.path, 'Palghar_images/blog_images');
+    uploadedImage = await uploadOnCloudinary(req.file.path, 'Palghar_images/blog_images');
     // if (!uploadedImage || !uploadedImage.url) {
     //   return res.status(500).json({
     //     success: false,
@@ -56,7 +50,6 @@ export const BlogController = async (req, res) => {
       featureImage: uploadedImage.url,
       publicId: uploadedImage.public_id,
       resourceType: uploadedImage.resource_type,
-
     });
 
     res.status(201).json({

@@ -4,21 +4,39 @@ import { resendOTP, verifyOTP } from '../controllers/verifyOTPController.js';
 import { createEnquiry, getAllEnquiries } from '../controllers/enquiryControllers.js';
 import { createContact, deleteContact, getAllContacts } from '../controllers/contactUsController.js';
 import { getAllSubscribers, subscribeNewsletter } from '../controllers/newsletterController.js';
-import { createTestimonial, deleteTestimonial, getAllTestimonials, getTestimonialById, updateTestimonial } from '../controllers/testimonialsController.js';
+import {
+  createTestimonial,
+  deleteTestimonial,
+  getAllTestimonials,
+  getTestimonialById,
+  updateTestimonial,
+} from '../controllers/testimonialsController.js';
 import upload from '../middleware/multerMiddleware.js';
-import { getAllPropertiesAndProjects, getPropertiesAndProjectsById, propertiesAndProject } from '../controllers/propertyAndProjectsController.js';
+import {
+  getAllPropertiesAndProjects,
+  getPropertiesAndProjectsById,
+  propertiesAndProject,
+  updateProject,
+  updateProperty,
+} from '../controllers/propertyAndProjectsController.js';
 import { Authenticate } from '../middleware/authMiddleware.js';
-import { AllBlogController, BlogController, BlogImageController, DeleteBlogController, EditBlogController, getBlogByIdController } from '../controllers/blogController.js';
+import {
+  AllBlogController,
+  BlogController,
+  BlogImageController,
+  DeleteBlogController,
+  EditBlogController,
+  getBlogByIdController,
+} from '../controllers/blogController.js';
 
 const router = express.Router();
 
-router.post('/signup', registerUser)
+router.post('/signup', registerUser);
 
-router.post('/signin', loginUser)
+router.post('/signin', loginUser);
 
-router.post("/forgot-password", forgotPassword);
-router.post("/reset-password/:token", resetPassword);
-
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password/:token', resetPassword);
 
 // ---------------- OTP verification ---------------------------
 
@@ -36,12 +54,10 @@ router.post('/contact/create', createContact);
 router.get('/contact/get', getAllContacts);
 router.delete('/contact/delete/:id', deleteContact);
 
-
 // ---------------- newsletter  ---------------------------
 
 router.post('/subscribe', subscribeNewsletter);
 router.get('/subscribers/all', getAllSubscribers);
-
 
 // ---------------- testimonials  ---------------------------
 
@@ -51,21 +67,38 @@ router.get('/testimonial/:id', getTestimonialById);
 router.patch('/testimonial/update/:id', upload.single('image'), updateTestimonial);
 router.delete('/testimonial/delete/:id', deleteTestimonial);
 
-
 // ---------------- properties and project  ---------------------------
-router.post('/propertandprojects', Authenticate, propertiesAndProject);
+router.post(
+  '/propertandprojects',
+  Authenticate,
+  upload.fields([
+    { name: 'propertyImages', maxCount: 5 },
+    { name: 'projectImage', maxCount: 5 },
+  ]),
+  propertiesAndProject,
+);
 router.get('/propertandprojects/all', getAllPropertiesAndProjects);
 router.get('/propertandprojects/:id', getPropertiesAndProjectsById);
-// router.patch('/propertandprojects/update/:id', upload.single('image'), updateTestimonial);
-// router.delete('/propertandprojects/delete/:id', deleteTestimonial);
+router.patch(
+  '/property/update/:id/:propertyId',
+  upload.array('images', 10),
+  updateProperty
+);
 
+router.patch(
+  '/project/update/:id/:projectId',
+  upload.array('images', 10),
+  updateProject
+);
 
 // ---------------- blogs ---------------------------
-router.post("/blog/post",Authenticate,upload.single("featureImage"),BlogController);
-router.get("/blog/all", AllBlogController);
-router.get("/blog/:id", getBlogByIdController);
-router.post("/upload-image", upload.single("image"), BlogImageController);
-router.patch("/blog/edit/:id",Authenticate,upload.single("featureImage"),EditBlogController);
-router.delete("/blog/delete/:id", Authenticate, DeleteBlogController);
+router.post('/blog/post', Authenticate, upload.single('featureImage'), BlogController);
+router.get('/blog/all', AllBlogController);
+router.get('/blog/:id', getBlogByIdController);
+router.post('/upload-image', upload.single('image'), BlogImageController);
+router.patch('/blog/edit/:id', Authenticate, upload.single('featureImage'), EditBlogController);
+router.delete('/blog/delete/:id', Authenticate, DeleteBlogController);
 
 export default router;
+
+

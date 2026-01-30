@@ -54,12 +54,12 @@ export const loginUser = async (req, res) => {
     const user = await userModel.findOne({ email });
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
-    console.log(user);
+    // console.log(user);
 
     if (!user.isActive) return res.status(403).json({ success: false, message: 'Please verify email first' });
 
     const isMatch = await user.comparePassword(password);
-    console.log(isMatch);
+    // console.log(isMatch);
 
     if (!isMatch) return res.status(401).json({ success: false, message: 'Invalid credentials' });
 

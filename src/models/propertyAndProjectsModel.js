@@ -40,16 +40,17 @@ const projectSchema = new mongoose.Schema(
   {
     name: { type: String },
     address: { type: String },
-    image: {
-      url: String,
-      publicId: String,
-    },
+    images: [
+      {
+        url: String,
+        publicId: String,
+      },
+    ],
     map_url: { type: String },
     status: { type: String },
   },
   { timestamps: true },
 );
-
 
 const propertiesAndProjectSchema = new mongoose.Schema(
   {
@@ -59,9 +60,8 @@ const propertiesAndProjectSchema = new mongoose.Schema(
     projectCategory: { type: String, unique: true, lowercase: true },
     projects: [projectSchema],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-
 
 const propertiesAndProjectModel = mongoose.model('ProjectAndProperty', propertiesAndProjectSchema);
 
