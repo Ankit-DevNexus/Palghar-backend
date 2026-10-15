@@ -16,7 +16,9 @@ connectDB(process.env.MONGO_DB_URI);
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
-   'https://www.palgharindia.com/'
+  "https://www.palgharindia.com",
+  "https://palgharindia.com",
+  "https://palghar-front-end.vercel.app",
 ];
 
 app.use(
