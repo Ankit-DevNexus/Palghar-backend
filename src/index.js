@@ -17,8 +17,6 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
   "https://www.palgharindia.com",
-  "https://palgharindia.com",
-  "https://palghar-front-end.vercel.app",  'https://www.palgharindia.com',
   'https://palgharindia.com',
   'https://palghar-front-end.vercel.app',
 ];
